@@ -10,7 +10,7 @@ Animates a string on hover.
 ```
 
 ```javascript
-const myStringElements = document.querySelector(".animate me");
+const myStringElements = document.querySelector(".animate-me");
 
 new AnimateString(myStringElements);
 ```
