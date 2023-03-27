@@ -22,24 +22,31 @@
             width: var(--max-width);
             max-width: var(--max-width);
         }
+
+        table tr > :nth-child(even) {
+            background-color: #ebffef;
+        }
     </style>
 </head>
 <body>
     <h1>animated-string.js</h1>
-    <p>This example shows two different string being transformed for the hover animation.</p>
-    <p>It shows that the transformed text wraps as usual but has its style removed.</p>
+    <p>Features:</p>
+    <ul>
+        <li>Inner HTML is preserved (spans, HTML attributes...)</li>
+        <li>Text wrapping is preserved (word wrap & line break)</li>
+    </ul>
     <table>
         <tr>
             <th>Original text</th>
             <th>Animated text (hover it!)</th>
         </tr>
         <tr>
-            <td>This is an animated string.</td>
-            <td class="js-string">This is an animated string.</td>
+            <td>This string doesn't contain span children elements.</td>
+            <td class="js-string">This string doesn't contain span children elements.</td>
         </tr>
         <tr>
-            <td>This is <span style="font-weight: bold;">an <span style="color: tomato;">animated</span></span> string and my style will be removed since it's not handled.</td>
-            <td class="js-string">This is <span style="font-weight: bold;">an <span style="color: tomato;">animated</span></span> string and my style will be removed since it's not handled.</td>
+            <td>This string <span style="font-weight: bold;">does <span style="color: green; font-style: italic;">contain</span> span</span> children element, which will be kept as they are.</td>
+            <td class="js-string">This string <span style="font-weight: bold;">does <span style="color: green; font-style: italic;">contain</span> span</span> children element, which will be kept as they are.</td>
         </tr>
     </table>
     <script src="animate-string.js"></script>

@@ -6,7 +6,7 @@ Animates a string on hover.
 
 ```html
 <h1 class="animate-me">I will be animated, just hover me.</h1>
-<p class="animate-me">I want to be animated too!</p>
+<p class="animate-me">I will be <b><u>animated</u></b> too!</p>
 ```
 
 ```javascript
@@ -17,48 +17,42 @@ new AnimateString(myStringElements);
 
 ## Options
 
+- `animationKeyframes`: [`Keyframe`](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Keyframe_Formats) array for the [`Element.animate`](https://developer.mozilla.org/en-US/docs/Web/API/Element/animate) method which will be triggered on each character mouse over.
+- `animationDuration`: in milliseconds.
+- `onMouseover`: callback function triggered on each character mouse over.
+
 ### Global animation options
 
-Animation options can be given globally.
+Animation options can be applied globally.
 
 ```javascript
-AnimateString.animationObject = [
+AnimateString.animationKeyframes = [
     {opacity: 1},
     {opacity: 0},
     {opacity: 1},
 ];
 AnimateString.animationDuration = 500;
+AnimateString.onMouseover = (event) => {
+    // ...
+};
 
 new AnimateString(myStringElements);
 ```
 
 ### Instance animation options
 
-Animations options can be given for an instance only.
+Animations options can be applied for an instance only.
 
 ```javascript
-const animationObject = [
+const animationKeyframes = [
     {opacity: 1},
     {opacity: 0},
     {opacity: 1},
 ];
 const animationDuration = 500;
+const onMouseover = (event) => {
+    // ...
+};
 
-new AnimateString(myStringElements, animationObject, animationDuration);
-```
-
-# Disclaimer
-
-**Important**: all inner HTML (and its style) will be removed from the targeted element(s). Only `textContent` will remain. As of now, I couldn't manage transforming only the text and keeping all inner HTML structure recursively.
-
-Input:
-
-```html
-<p>This <i>is</i> a <span style="font-weight: bold;">bold</span> text.</p>
-```
-
-Output: (**keep in mind that each character is wrapped in a `<span>` element when outputted**)
-
-```html
-<p>This is a bold text.</p>
+new AnimateString(myStringElements, animationKeyframes, animationDuration, onMouseover);
 ```
