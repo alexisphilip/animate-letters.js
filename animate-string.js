@@ -85,8 +85,8 @@ class AnimateString {
      */
     #transformString(stringEl) {
 
-        // Recursively changes 
-        this.#updateNodeTreeRecursive(stringEl.childNodes);
+        // Gives a list of child nodes.
+        this.#updateNodeTreeRecursive(stringEl);
 
         // Selects the span elements which will be animated.
         const charEls = stringEl.querySelectorAll(".animated-string-char");
@@ -106,36 +106,72 @@ class AnimateString {
     }
 
     /**
-     * Recursively transforms each given child nodes to elements which can be animated.
-     * @param {NodeList} childNodes Child nodes of the current element.
+     * Recursively transforms an element by wrapping each letter inside the node with a <span> element.
+     * This method is recusive because if the child nodes of the given elements are not of type `TextNode`,
+     * we'll call that method again by givin that element as parameter, so the method will transform that
+     * node's text accordingly.
+     * 
+     * Each letters wrapped into a <span> element will be assigned
+     * an event listener which will trigger the given animation.
+     * 
+     * @param {HTMLElement} stringEl Element to recursively transform.
+     * 
+     * @example
+     * ORIGINAL ELEMENT:
+     *      <p>
+     *           I am a text node
+     *           <span>with inner HTML<span>
+     *           I am another text node
+     *      <p>
+     * OUTPUT ELEMENT: (just an example, animated element are not exactly like that)
+     *      <p>
+     *           <span>I<span>
+     *           <span> <span>
+     *           <span>a<span>
+     *           <span>m<span>
+     *           ...
+     *           <span>
+     *                  <span>w<span>
+     *                  <span>i<span>
+     *                  <span>t<span>
+     *                  <span>h<span>
+     *           ...
+     *           <span>
+     *           <span>I<span>
+     *           <span> <span>
+     *           <span>a<span>
+     *           <span>m<span>
+     *           ...
+     *      <p>
      */
-    #updateNodeTreeRecursive(childNodes) {
-        // For each child nodes.
-        for (let childNode of childNodes) {
-            // If the current node has at least a child (it means it's not a simple string, it contains inner HTML elements...).
-            if (childNode.childNodes.length) {
-                this.#updateNodeTreeRecursive(childNode.childNodes);
-            } // If the current node does not has any children (it means it's a simple string, which can now be modified).
-            else {
+    #updateNodeTreeRecursive(stringEl) {
+        // For each child nodes inside the given element.
+        for (const childNode of stringEl.childNodes) {
+            // If the current node is a `#text` node, it's time to transform it.
+            if (childNode.nodeName === "#text") {
                 // Here, we'll do 3 things:
-                // 1. Create a `span` element which will replace the `Text` element.
-                // 2. In that `span` element, we'll wrap each individual words into another `span`.
-                // 3. In that word `span` element, we'll wrap each individual character into another `span`.
+                // 1. Create a <span> element which will replace the `#text` node.
+                // 2. In that <span> element, we'll wrap each individual words into another <span>.
+                // 3. In that word <span> element, we'll wrap each individual character into another <span>.
 
                 // 1. Since a `Text` node cannot contain children nodes (only text), we'll create
-                // a `span` node which will replace the current `Text` node.
+                // a <span> node which will replace the current `Text` node.
                 let newNode = document.createElement("span");
                 
                 // For each words in the string.
                 for (let wordStr of childNode.textContent.trim().split(" ")) {
-                    // 3. In the word string, wraps each character in a span element.
+                    // 3. In the word string, wraps each characters in a <span> element.
                     wordStr = wordStr.replace(/\S/g, "<span class='animated-string-char'>$&</span>");
-                    // 2. Wraps the word string in a span element.
+                    // 2. Wraps the word string in a <span> element.
                     newNode.innerHTML += `<span style="display: inline-flex;">${wordStr}</span> `;
                 }
 
-                // 1. Replaces the current `Text` node with the new `span` node. 
+                // 1. Replaces the current `#text` node node with the new <span> node. 
                 childNode.replaceWith(newNode);
+            } // If the current node is not a `#text` node, it means it's a parent which contains
+            // at least one child node (maybe a `#text` node, which needs to be transformed).
+            else {
+                this.#updateNodeTreeRecursive(childNode);
             }
         }
     }
