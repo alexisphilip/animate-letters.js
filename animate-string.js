@@ -107,8 +107,8 @@ class AnimateString {
 
     /**
      * Recursively transforms an element by wrapping each letter inside the node with a <span> element.
-     * This method is recusive because if the child nodes of the given elements are not of type `TextNode`,
-     * we'll call that method again by givin that element as parameter, so the method will transform that
+     * This method is recursive because if the child nodes of the given elements are not of type `TextNode`,
+     * we'll call that method again by giving that element as parameter, so the method will transform that
      * node's text accordingly.
      * 
      * Each letters wrapped into a <span> element will be assigned
