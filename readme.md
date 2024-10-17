@@ -5,14 +5,13 @@ Animates a string on hover.
 # Usage
 
 ```html
-<h1 class="animate-me">I will be animated, just hover me.</h1>
+<h1>I will be animated, just hover me.</h1>
 <p class="animate-me">I will be <b><u>animated</u></b> too!</p>
 ```
 
 ```javascript
-const myStringElements = document.querySelector(".animate-me");
-
-new AnimateString(myStringElements);
+const elements = document.querySelectorAll("h1, .animate-me");
+new AnimateString(elements);
 ```
 
 ## Options
@@ -23,7 +22,7 @@ new AnimateString(myStringElements);
 
 ### Global animation options
 
-Animation options can be applied globally.
+Animation options will be applied for each next `AnimateString` call.
 
 ```javascript
 AnimateString.animationKeyframes = [
@@ -36,12 +35,13 @@ AnimateString.onMouseover = (event) => {
     // ...
 };
 
-new AnimateString(myStringElements);
+const elements = document.querySelectorAll("h1");
+new AnimateString(elements);
 ```
 
 ### Instance animation options
 
-Animations options can be applied for an instance only.
+Animations options will applied only for the given `AnimateString`.
 
 ```javascript
 const animationKeyframes = [
@@ -54,5 +54,6 @@ const onMouseover = (event) => {
     // ...
 };
 
-new AnimateString(myStringElements, animationKeyframes, animationDuration, onMouseover);
+const elements = document.querySelectorAll("h1");
+new AnimateString(elements, animationKeyframes, animationDuration, onMouseover);
 ```
